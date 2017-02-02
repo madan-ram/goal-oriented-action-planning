@@ -9,7 +9,9 @@ import fsm.*;
 import god.*;
 import actions.*;
 
+
 public abstract class GoapAgent {
+	
 	
 	private FSM fsm = new FSM();
 	public static FSMState idleState;
@@ -24,13 +26,30 @@ public abstract class GoapAgent {
 		}
 	}
 	
-	public void createActionList(RobotController rc) {
+	public void createActionList(RobotController rc,DataProvider dataProvider) {
 		addAction(
-				new actions.HireFarmGardenerAction(rc),
-				new actions.LocateFreeSpaceAction(rc),
-				new actions.PlantTreeAction(rc),
-				new actions.MoveRandomAction(rc)
+				new actions.HireFarmGardenerAction(rc, dataProvider),
+				new actions.LocateFreeSpaceAction(rc, dataProvider),
+				new actions.PlantTreeAction(rc,dataProvider),
+				new actions.MoveRandomAction(rc, dataProvider)
 		);
+	}
+	
+	protected class Tuple {
+		String key;
+		Object value;
+		public Tuple(String key, Object value) {
+			this.key = key;
+			this.value = value;
+		}
+	}
+	
+	protected HashMap<String, Object> addGoal(Tuple... a) {
+		HashMap<String, Object> goal = new HashMap<String, Object>();
+		for(Tuple b:a) {
+			goal.put(b.key, b.value);
+		}
+		return goal;
 	}
 	
 	public static ArrayList<GoapAction> getActions() {
@@ -39,14 +58,14 @@ public abstract class GoapAgent {
 	
 	public void start(RobotController rc) {
 		
+		//create data provider for each agent
+		DataProvider dataProvider = new DataProvider(rc);
+				
 		//init action to provided useful methods
 		GoapAction.init(rc);
 		
 		//create all the action list
-		createActionList(rc);
-				
-		//create data provider for each agent
-		DataProvider dataProvider = new DataProvider(rc);
+		createActionList(rc, dataProvider);
 				
 		//Create IdleState
 		idleState = new IdleState(fsm, rc, this, dataProvider);
@@ -66,7 +85,7 @@ public abstract class GoapAgent {
 		//start the game
 		try {
 			fsm.start();
-		} catch (GameActionException e) {
+		} catch (Exception e) {
 			System.out.println("###############################################################################");
 			System.out.printf("Finite State Machine error\n");
 			e.printStackTrace();
@@ -75,7 +94,7 @@ public abstract class GoapAgent {
 		
 	}
 	
-	public abstract HashMap<String, Object> createGoalState();
+	public abstract ArrayList<HashMap<String, Object>> createGoalsState();
 	
 	public static String prettyPrint(HashMap<String, Object> state) {
 		String s = "";

@@ -1,20 +1,25 @@
 package agents;
 import goap.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-
-import battlecode.common.RobotController;
 
 public class ChopperLumberjackAgent extends GoapAgent {
 	
-	public HashMap<String, Object> createGoalState() {
-		HashMap<String, Object> goal = new HashMap<String, Object>();
+	public ArrayList<HashMap<String, Object>> createGoalsState() {
+		ArrayList<HashMap<String, Object>> goals = new ArrayList<HashMap<String, Object>>();
 		
-		goal.put("chopForPath", true);
-		goal.put("chopForSpace", true);
-		goal.put("chopForbot", true);
-		goal.put("chopEnemyTree", true);
+		//addGoal takes in list of K,V and return goal, this list represent "and goal"
+		//list of "and goal" forms goals
+				
+		goals.add(addGoal(new Tuple("chopForPath", true)));
 		
-		return goal;
+		goals.add(addGoal(new Tuple("chopForSpace", true)));
+
+		goals.add(addGoal(new Tuple("chopForbot", true)));
+		
+		goals.add(addGoal(new Tuple("chopEnemyTree", true)));
+		
+		return goals;
 	}
 } 

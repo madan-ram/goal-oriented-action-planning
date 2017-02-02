@@ -2,15 +2,18 @@ package actions;
 
 import battlecode.common.*;
 import goap.GoapAction;
+import god.DataProvider;
 
 public class PlantTreeAction extends GoapAction {
 	
 	boolean plantedTree = false;
-	RobotController rc;
+	static RobotController rc;
 	
-	public PlantTreeAction(RobotController rc) {
-		super(rc);
-		this.rc = rc;
+	public PlantTreeAction(RobotController rc, DataProvider dataProvider) {
+		super(rc, dataProvider);
+		
+		MoveRandomAction.dataProvider = dataProvider;
+		PlantTreeAction.rc = rc;
 		
 		addPreCondition("hasFarmGardener", true);
 		addPreCondition("hasFreeSpace", true);

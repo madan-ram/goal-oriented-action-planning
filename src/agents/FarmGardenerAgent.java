@@ -1,22 +1,29 @@
 package agents;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-
-import battlecode.common.RobotController;
 import goap.GoapAgent;
 
 public class FarmGardenerAgent extends GoapAgent {
 
-	public HashMap<String, Object> createGoalState() {
-		HashMap<String, Object> goal = new HashMap<String, Object>();
+	public ArrayList<HashMap<String, Object>> createGoalsState() {
+		ArrayList<HashMap<String, Object>> goals = new ArrayList<HashMap<String, Object>>();
 		
-		goal.put("plantTrees", true);
-		goal.put("waterTrees", true);
-		goal.put("locateFreeSpace", true);
-		goal.put("DonateForVictoryPoints", true);
-		goal.put("requestLumberForFreeSpace", true);
+		//addGoal takes in list of K,V and return goal, this list represent "and goal"
+		//list of "and goal" forms goals
 		
-		return goal;
+		goals.add(addGoal(new Tuple("plantTrees", true)));
+		
+		goals.add(addGoal(new Tuple("waterTrees", true)));
+		
+		goals.add(addGoal(new Tuple("locateFreeSpace", true)));
+		
+		goals.add(addGoal(new Tuple("DonateForVictoryPoints", true)));
+		
+		goals.add(addGoal(new Tuple("requestLumberForFreeSpace", true)));
+		
+		//goals.add(addGoal(new Tuple("moveRandom", true)));
+		
+		return goals;
 	}
 }

@@ -28,7 +28,6 @@ public class MoveState extends FSMState {
 	}
 	
 	public void play() {
-		Clock.yield();
 	}
 
 }

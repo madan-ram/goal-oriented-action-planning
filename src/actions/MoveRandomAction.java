@@ -2,6 +2,7 @@ package actions;
 
 import battlecode.common.*;
 import goap.GoapAction;
+import god.DataProvider;
 import common.Utils;
 
 public class MoveRandomAction extends GoapAction {
@@ -9,10 +10,10 @@ public class MoveRandomAction extends GoapAction {
 	boolean moved = false;
 	static RobotController rc;
 	
-	public MoveRandomAction(RobotController rc) {
-		super(rc);
+	public MoveRandomAction(RobotController rc, DataProvider dataProvider) {
+		super(rc, dataProvider);
+
 		MoveRandomAction.rc = rc;
-		
 		//default action to be performed when there is no plan
 		
 		//Effect performed goal
@@ -20,7 +21,8 @@ public class MoveRandomAction extends GoapAction {
 	}
 	
 	static boolean tryMove(Direction dir, float degreeOffset, int checksPerSide) throws GameActionException {
-
+		
+		
         // First, try intended direction
         if (!rc.hasMoved() && rc.canMove(rc.getLocation().add(dir, rc.getType().strideRadius))) {
             rc.move(rc.getLocation().add(dir, rc.getType().strideRadius));
@@ -68,7 +70,7 @@ public class MoveRandomAction extends GoapAction {
 	@Override
 	public float getCost() {
 		// TODO Auto-generated method stub
-		return 0;
+		return 100;
 	}
 
 	@Override

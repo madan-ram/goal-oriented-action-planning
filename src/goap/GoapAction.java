@@ -2,13 +2,24 @@ package goap;
 
 import java.util.HashMap;
 import battlecode.common.*;
+import god.DataProvider;
 
 public abstract class GoapAction {
 	
-	static RobotController rc;
+	protected static RobotController rc;
+	protected static DataProvider dataProvider;
 	
-	protected GoapAction(RobotController rc) {
+	protected GoapAction(RobotController rc, DataProvider dataProvider) {
 		GoapAction.rc = rc;
+		GoapAction.dataProvider = dataProvider;
+	}
+	
+	protected static RobotController getRobotController() {
+		return rc;
+	}
+	
+	protected static DataProvider getRDataProvider() {
+		return dataProvider;
 	}
 	
 	protected HashMap<String, Object> effects = new HashMap<String, Object>();

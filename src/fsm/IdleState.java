@@ -38,12 +38,13 @@ public class IdleState extends FSMState {
 		
 		// get the world state and the goal we want to plan for
 		HashMap<String, Object> worldState = dataProvider.getWorldState();
-		HashMap<String, Object> goal = agent.createGoalState();
+		ArrayList<HashMap<String, Object>> goal = agent.createGoalsState();
 		
 		// Plan
 		Queue<GoapAction> plan = planner.plan(rc, availableActions, worldState, goal);
 		
 		if (plan != null) {
+			System.out.printf("Plan Found %s\n", plan);
 			// we have a plan, hooray!
 			dataProvider.planFound(goal, plan);
 			
@@ -53,7 +54,7 @@ public class IdleState extends FSMState {
 
 		} else {
 			// ugh, we couldn't get a plan
-			System.out.printf("<color=orange>Failed Plan:</color> %s\n", GoapAgent.prettyPrint(goal));
+			System.out.printf("Plan Failed ###############\n");
 			dataProvider.planFailed(goal);
 			fsm.popState (); // move back to IdleAction state
 			fsm.pushState (agent.idleState);

@@ -49,7 +49,7 @@ ArrayList<GoapAction> availableActions;
 			action = currentActions.peek();
 			//boolean inRange = action.requiresInRange() ? action.isInRange() : true;
 			//TODO fix this problem
-			boolean inRange = false;
+			boolean inRange = true;
 			
 			if ( inRange ) {
 				// we are in range, so perform the action
@@ -73,8 +73,6 @@ ArrayList<GoapAction> availableActions;
 			fsm.pushState(GoapAgent.idleState);
 			dataProvider.actionsFinished();
 		}
-					
-		Clock.yield();
 	}
 
 }

@@ -1,20 +1,26 @@
 package agents;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
-import battlecode.common.RobotController;
 import goap.GoapAgent;
 
 public class BotGardenerAgent extends GoapAgent {
 	
-	public HashMap<String, Object> createGoalState() {
-		HashMap<String, Object> goal = new HashMap<String, Object>();
+	public ArrayList<HashMap<String, Object>> createGoalsState() {
+		ArrayList<HashMap<String, Object>> goals = new ArrayList<HashMap<String, Object>>();
 		
-		goal.put("buildLumberJack", true);
-		goal.put("buildSoldier", true);
-		goal.put("buildScout", true);
-		goal.put("buildtank", true);
+		//addGoal takes in list of K,V and return goal, this list represent "and goal"
+		//list of "and goal" forms goals
 		
-		return goal;
+		goals.add(addGoal(new Tuple("buildLumberJack", true)));
+		
+		goals.add(addGoal(new Tuple("buildSoldier", true)));
+		
+		goals.add(addGoal(new Tuple("buildScout", true)));
+		
+		goals.add(addGoal(new Tuple("buildtank", true)));
+		
+		return goals;
 	}
 }

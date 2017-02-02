@@ -24,7 +24,7 @@ final class Node {
 public class GoapPlanner {
 	
 	public Queue<GoapAction> plan(RobotController rc, ArrayList<GoapAction> actionList,
-			HashMap<String, Object> worldState, HashMap<String, Object> goal
+			HashMap<String, Object> worldState, ArrayList<HashMap<String, Object>> goals
 			) {
 		
 		// reset the actions so we can start fresh with them
@@ -38,14 +38,18 @@ public class GoapPlanner {
 			if ( a.checkProceduralPreCondtion(rc) )
 				usableActions.add(a);
 		}
+		//System.out.printf(" Usable action are %s\n", usableActions);
 		
 		// we now have all actions that can run, stored in usableActions
-		// build up the tree and record the leaf nodes that provide a solution to the goal.
+		// build up the tree and record the leaf nodes that provide a solution to the goals.
 		ArrayList<Node> leaves = new ArrayList<Node>();
 		
 		// build graph
 		Node start = new Node (null, 0, worldState, null);
-		boolean success = buildGraph(start, leaves, usableActions, goal);
+		boolean success = buildGraph(start, leaves, usableActions, goals, 1000000.0f);
+		for(Node leaf:leaves) {
+			System.out.printf("Avilable plans %s @@@@@@@@@@@@@@@@@@@@@@@@@\n", leaf.action);
+		}
 		
 		if (!success) {
 			// oh no, we didn't get a plan
@@ -97,12 +101,12 @@ public class GoapPlanner {
 		
 		//copy current state to new state
 		for(String key:currentState.keySet()) {
-			state.put(key, currentState.keySet());
+			state.put(key, currentState.get(key));
 		}
 		
 		//Add key with in stateChange to state
 		for(String key:stateChange.keySet()) {
-			state.put(key, stateChange.keySet());
+			state.put(key, stateChange.get(key));
 		}
 		
 		return state;
@@ -117,37 +121,43 @@ public class GoapPlanner {
 		return subset;
 	}
 	
-	private boolean buildGraph(Node parent, ArrayList<Node> leaves, ArrayList<GoapAction> usableActions, HashMap<String, Object> goal)
+	private boolean buildGraph(Node parent, ArrayList<Node> leaves, ArrayList<GoapAction> usableActions, ArrayList<HashMap<String, Object>> goals,float leastcost)
 	{
 		boolean foundOne = false;
 
 		// go through each action available at this node and see if we can use it here
 		for(GoapAction action: usableActions) {
-
+			
 			// if the parent state has the conditions for this action's preconditions, we can use it here
 			if ( inState(action.getPreConditions(), parent.state) ) {
 
 				// apply the action's effects to the parent state
 				HashMap<String, Object> currentState = populateState(parent.state, action.getEffects());
-				System.out.println("StateChange =========================================");
-				System.out.printf("%s\n", GoapAgent.prettyPrint(currentState));
+				//System.out.println("StateChange =========================================");
+				//System.out.printf("%s\n", GoapAgent.prettyPrint(currentState));
 				
 				Node node = new Node(parent, parent.runningCost+action.getCost(), currentState, action);
 				
-				if (inState(goal, currentState)) {
-					// we found a solution!
-					leaves.add(node);
-					foundOne = true;
-				} else {
+				for(HashMap<String, Object> goal:goals) {
+					//System.out.printf("Goal->%s %s\n", goal, currentState);
+					if(inState(goal, currentState)) {
+						leaves.add(node);
+						foundOne = true;
+						//found at least one goal then we note down the leaf return
+						break;
+					}
+				}
+				//explore further if current cost is less than or equals to least cost found so far.
+				if(!foundOne && parent.runningCost+action.getCost() <= leastcost) {
 					// not at a solution yet, so test all the remaining actions and branch out the tree
 					ArrayList<GoapAction> subset = actionSubset(usableActions, action);
-					boolean found = buildGraph(node, leaves, subset, goal);
+					
+					boolean found = buildGraph(node, leaves, subset, goals, leastcost);
 					if (found)
 						foundOne = true;
 				}
 			}
 		}
-
 		return foundOne;
 	}
 	
