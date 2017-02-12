@@ -26,14 +26,7 @@ public abstract class GoapAgent {
 		}
 	}
 	
-	public void createActionList(RobotController rc,DataProvider dataProvider) {
-		addAction(
-				new actions.HireFarmGardenerAction(rc, dataProvider),
-				new actions.LocateFreeSpaceAction(rc, dataProvider),
-				new actions.PlantTreeAction(rc,dataProvider),
-				new actions.MoveRandomAction(rc, dataProvider)
-		);
-	}
+	public abstract void createActionList(RobotController rc,DataProvider dataProvider);
 	
 	protected class Tuple {
 		String key;
@@ -91,7 +84,6 @@ public abstract class GoapAgent {
 			e.printStackTrace();
 			System.out.println("###############################################################################");
 		}
-		
 	}
 	
 	public abstract ArrayList<HashMap<String, Object>> createGoalsState();

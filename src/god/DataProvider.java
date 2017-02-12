@@ -14,7 +14,7 @@ public class DataProvider {
 	Queue<GoapAction> currentActions = null;
 	ArrayList<HashMap<String, Object>> currentGoal = null;
 	
-	static int hireGardenerTurn = -10;
+	public static int hireGardenerTurn = -10;
 	
 	//store the world state
 	static HashMap<String, Object> worldState;
@@ -68,7 +68,7 @@ public class DataProvider {
 	
 	public static boolean hasHireGardenerTurn() {
 		if(rc.getRoundNum() - hireGardenerTurn > 10) {
-			System.out.printf("Has hireGardenerTurn %d rc.getRoundNum() %d\n",hireGardenerTurn,  rc.getRoundNum());
+			System.out.printf("Has hireGardenerTurn %d rc.getRoundNum() %d\n", hireGardenerTurn,  rc.getRoundNum());
 			return true;
 		}
 		return false;

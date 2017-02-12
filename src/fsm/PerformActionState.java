@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Queue;
 
 import battlecode.common.*;
+import common.Utils;
 import goap.GoapAction;
 import goap.GoapAgent;
 import god.DataProvider;
@@ -30,16 +31,16 @@ ArrayList<GoapAction> availableActions;
 	public void play() throws GameActionException {
 		
 		Queue<GoapAction> currentActions = dataProvider.getCurrentActions();
-		if(currentActions != null) {
-			System.out.println("Error: currentActions is null");
-		}
+
 		GoapAction action = currentActions.peek();
 		
 		if ( action.isDone() ) {
 			// the action is done. Remove it so we can perform the next one
-			if(currentActions.poll() != null) {
+			if(currentActions.poll() == null) {
 				System.out.println("Error: currentActions is null");
 			}
+		} else {
+			Utils.printERROR(rc, "Action not done");
 		}
 
 		//TODO fix this problem

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Queue;
 
 import battlecode.common.Clock;
+import battlecode.common.GameActionException;
 import battlecode.common.RobotController;
 import goap.GoapAction;
 import goap.GoapAgent;
@@ -34,10 +35,10 @@ public class IdleState extends FSMState {
 		planner = new GoapPlanner();
 	}
 	
-	public void play() {
+	public void play() throws GameActionException {
 		
 		// get the world state and the goal we want to plan for
-		HashMap<String, Object> worldState = dataProvider.getWorldState();
+		HashMap<String, Object> worldState = DataProvider.getWorldState();
 		ArrayList<HashMap<String, Object>> goal = agent.createGoalsState();
 		
 		// Plan

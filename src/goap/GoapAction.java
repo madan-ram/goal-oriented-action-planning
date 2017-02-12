@@ -81,7 +81,7 @@ public abstract class GoapAction {
 	// action failed, we need to plan again (perform return false only when action failure should reconstruct new plan)
 	public abstract boolean perform(RobotController rc) throws GameActionException;
 	
-	public abstract boolean checkProceduralPreCondtion(RobotController rc);
+	public abstract boolean checkProceduralPreCondtion(RobotController rc) throws GameActionException;
 
 	public abstract float getCost();
 	

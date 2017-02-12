@@ -25,7 +25,7 @@ public class GoapPlanner {
 	
 	public Queue<GoapAction> plan(RobotController rc, ArrayList<GoapAction> actionList,
 			HashMap<String, Object> worldState, ArrayList<HashMap<String, Object>> goals
-			) {
+			) throws GameActionException {
 		
 		// reset the actions so we can start fresh with them
 		for(GoapAction a:actionList) {

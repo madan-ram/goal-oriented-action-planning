@@ -1,8 +1,11 @@
 package agents;
 import goap.*;
+import god.DataProvider;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import battlecode.common.RobotController;
 
 public class ArchonAgent extends GoapAgent {
 	
@@ -19,5 +22,13 @@ public class ArchonAgent extends GoapAgent {
 		goals.add(addGoal(new Tuple("moveRandom", true)));
 		
 		return goals;
+	}
+	
+	public void createActionList(RobotController rc,DataProvider dataProvider) {
+		addAction(
+				new actions.HireFarmGardenerAction(rc, dataProvider),
+				new actions.LocateFreeSpaceAction(rc, dataProvider),
+				new actions.MoveRandomAction(rc, dataProvider)
+		);
 	}
 } 

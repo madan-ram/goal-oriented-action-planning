@@ -3,7 +3,9 @@ package agents;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import battlecode.common.RobotController;
 import goap.GoapAgent;
+import god.DataProvider;
 
 public class BotGardenerAgent extends GoapAgent {
 	
@@ -22,5 +24,14 @@ public class BotGardenerAgent extends GoapAgent {
 		goals.add(addGoal(new Tuple("buildtank", true)));
 		
 		return goals;
+	}
+	
+	public void createActionList(RobotController rc,DataProvider dataProvider) {
+		addAction(
+				new actions.HireFarmGardenerAction(rc, dataProvider),
+				new actions.LocateFreeSpaceAction(rc, dataProvider),
+				new actions.PlantTreeAction(rc,dataProvider),
+				new actions.MoveRandomAction(rc, dataProvider)
+		);
 	}
 }

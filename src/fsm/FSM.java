@@ -8,6 +8,15 @@ import battlecode.common.GameActionException;
 import battlecode.common.RobotController;
 import goap.GoapAgent;
 import god.DataProvider;
+import scala.tools.nsc.settings.RC;
+
+final class FSMNoStateException extends Exception {
+	
+	FSMNoStateException(String s) {
+		super(s);
+		System.exit(-1);
+	}
+}
 
 public class FSM {
 	
@@ -19,18 +28,21 @@ public class FSM {
 			FSMList.add(state);
 	}
 	
-	public void start() throws GameActionException {
-		boolean returnToClock = false;
+	public void start() throws GameActionException, FSMNoStateException {
+		boolean returnToClock;
 		while(true) {
 			returnToClock = false;
-			if(stateStack.peek() != GoapAgent.idleState && stateStack.peek() != null) {
+			//if not in idle state then there is some task to be done, this means we need to return clock
+			if(stateStack.peek() != GoapAgent.idleState) {
 				returnToClock = true;
 			}
+			
 			//play the push state
 			if(stateStack.peek() != null) {
 				stateStack.peek().play();
 			} else {
 				System.out.println("state stack is null");
+				throw new FSMNoStateException("FSM recived null exception which break system");
 			}
 			
 			if(returnToClock) {

@@ -73,7 +73,8 @@ dependencies {
 eclipse {
     classpath {
         downloadJavadoc = true
-        downloadSources = true
+        //COMMANTED BY ME TO PREVENT DOWNLOAD
+        //downloadSources = true
 
         defaultOutputDir = new File(project.buildDir, 'classes-eclipse')
     }
