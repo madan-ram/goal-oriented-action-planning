@@ -36,9 +36,9 @@ sourceSets {
 
 repositories {
     // Let Gradle know about our own repository for hosting Battlecode.
-   // maven {
-    //    url "http://battlecode-maven.s3-website-us-east-1.amazonaws.com/"
-   // }
+    maven {
+        url "http://battlecode-maven.s3-website-us-east-1.amazonaws.com/"
+   }
 
     // Use the JCenter repo to resolve Scala dependencies.
     jcenter()
@@ -220,7 +220,7 @@ buildscript {
     repositories {
         maven {
             //url "http://battlecode-maven-test-aaarblgarbl.s3-website-us-east-1.amazonaws.com/"
-            url "/home/hitech/Projects/battle_code_goap/"
+            url "/home/hitech/Projects/battle_code_goap/deps/"
         }
     }
     dependencies {

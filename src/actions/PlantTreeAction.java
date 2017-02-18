@@ -69,8 +69,4 @@ public class PlantTreeAction extends GoapAction {
 	public boolean checkProceduralPreCondtion(RobotController rc) {
 		return true;
 	}
-
-
-	
-	
 }
