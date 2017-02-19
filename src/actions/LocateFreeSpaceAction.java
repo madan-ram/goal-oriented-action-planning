@@ -1,6 +1,7 @@
 package actions;
 import battlecode.common.Direction;
 import battlecode.common.RobotController;
+import common.Utils;
 import goap.GoapAction;
 import god.DataProvider;
 
@@ -12,18 +13,19 @@ public class LocateFreeSpaceAction extends GoapAction {
 	public LocateFreeSpaceAction(RobotController rc, DataProvider dataProvider) {
 		super(rc, dataProvider);
 		this.rc = rc;
+
+		addPreCondition("hasLocatedFreeSpace", false);
 		
-		addPreCondition("hasFarmGardener", true);
-		addPreCondition("hasFreeSpace", false);
-		
-		addEffect("hasFreeSpace", true);
-		//Effect performed goal
-		addEffect("locateFreeSpace", true);
+		addEffect("hasLocatedFreeSpace", true);
 	}
 	
 	@Override
 	public boolean perform(RobotController rc) {
 		located = true;
+		//TODO update worldState not involving dataProvider usage
+		//DataProvider.updateState("hasLocatedFreeSpace", true);
+		
+		Utils.printINFO(rc, "Performed free space location");
 		//Failed action should not create complete new plan
 		return true;
 	}

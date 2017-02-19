@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Queue;
 
+import battlecode.common.GameActionException;
 import battlecode.common.MapLocation;
 import battlecode.common.RobotController;
+import common.ChannelConstIndex;
 import goap.GoapAction;
 
 public class DataProvider {
@@ -16,24 +18,39 @@ public class DataProvider {
 	
 	public static int hireGardenerTurn = -10;
 	
+	//some constant value
+	static int MaxNumFarmGardener = 5;
+	static int MaxNumPlantTrees = 20;
+	
 	//store the world state
-	static HashMap<String, Object> worldState;
+	static HashMap<String, Object> worldState = new HashMap<String, Object>();;
 	
 	public DataProvider(RobotController rc) {
 		this.rc = rc;
 	}
 	
 	public static HashMap<String, Object> getWorldState() {
-		worldState = new HashMap<String, Object>();
 		MapLocation[] locations = rc.getInitialArchonLocations(rc.getTeam());
 		
 		//Initial world state
 		worldState.put("hasArchon", locations.length > 0);
-		worldState.put("hasBullets", rc.getTeamBullets()> 0.0);
-		worldState.put("hasFarmGardener", false);
+		worldState.put("hasBullets", rc.getTeamBullets() > 0.0);
+		try {
+			worldState.put("hasFarmGardener", rc.readBroadcast(ChannelConstIndex.GARDENER_COUNT) >= MaxNumFarmGardener);
+		} catch (GameActionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		worldState.put("hasPlantTrees", rc.getTreeCount() >=  MaxNumPlantTrees);
+		worldState.put("hasLocatedFreeSpace", false);
 		return worldState;
 	}
 
+	
+	public static void updateState(String key, boolean value) {
+		worldState.put(key, value);
+	}
+	
 	public Queue<GoapAction> getCurrentActions() {
 		return currentActions;
 	}
@@ -63,12 +80,10 @@ public class DataProvider {
 
 	public static void hiredGardener() {
 		hireGardenerTurn = rc.getRoundNum();
-		System.out.printf("Gardener %d\n",hireGardenerTurn);
 	}
 	
 	public static boolean hasHireGardenerTurn() {
 		if(rc.getRoundNum() - hireGardenerTurn > 10) {
-			System.out.printf("Has hireGardenerTurn %d rc.getRoundNum() %d\n", hireGardenerTurn,  rc.getRoundNum());
 			return true;
 		}
 		return false;

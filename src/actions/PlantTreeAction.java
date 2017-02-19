@@ -15,8 +15,9 @@ public class PlantTreeAction extends GoapAction {
 		MoveRandomAction.dataProvider = dataProvider;
 		PlantTreeAction.rc = rc;
 		
-		addPreCondition("hasFarmGardener", true);
-		addPreCondition("hasFreeSpace", true);
+		//{hasArchon=true, hasBullets=true, hasFarmGardener=false}
+		
+		addPreCondition("hasLocatedFreeSpace", true);
 		addPreCondition("hasPlantTrees", false);
 		addPreCondition("hasBullets", true);
 		
@@ -47,7 +48,6 @@ public class PlantTreeAction extends GoapAction {
 	public boolean perform(RobotController rc) throws GameActionException {
 		Direction[] dir6 = GoapAction.getSixDirection();
 		float spawnDist = rc.getType().bodyRadius + GameConstants.GENERAL_SPAWN_OFFSET + GameConstants.BULLET_TREE_RADIUS;
-		
 		
 		//Assume we will be successful
 		plantedTree = true;

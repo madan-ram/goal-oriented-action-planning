@@ -30,7 +30,6 @@ public class IdleState extends FSMState {
 		this.dataProvider = dataProvider;
 		
 		availableActions = GoapAgent.getActions();
-		System.out.printf("Avilable action list %s\n", availableActions);
 		//create planner object
 		planner = new GoapPlanner();
 	}
@@ -45,7 +44,6 @@ public class IdleState extends FSMState {
 		Queue<GoapAction> plan = planner.plan(rc, availableActions, worldState, goal);
 		
 		if (plan != null) {
-			System.out.printf("Plan Found %s\n", plan);
 			// we have a plan, hooray!
 			dataProvider.planFound(goal, plan);
 			
@@ -55,7 +53,6 @@ public class IdleState extends FSMState {
 
 		} else {
 			// ugh, we couldn't get a plan
-			System.out.printf("Plan Failed ###############\n");
 			dataProvider.planFailed(goal);
 			fsm.popState (); // move back to IdleAction state
 			fsm.pushState (agent.idleState);

@@ -9,6 +9,11 @@ public abstract class GoapAction {
 	protected static RobotController rc;
 	protected static DataProvider dataProvider;
 	
+	public static int HIRE_FARM_GARDENER_ACTION = 0;
+	public static int LOCATE_FREE_SPACE_ACTION = 1;
+	public static int MOVE_RANDOM_ACTION = 2;
+	public static int PLANT_TREE_ACTION = 3;
+	
 	protected GoapAction(RobotController rc, DataProvider dataProvider) {
 		GoapAction.rc = rc;
 		GoapAction.dataProvider = dataProvider;

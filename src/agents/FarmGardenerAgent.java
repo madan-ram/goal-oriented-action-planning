@@ -18,14 +18,12 @@ public class FarmGardenerAgent extends GoapAgent {
 		goals.add(addGoal(new Tuple("plantTrees", true)));
 		
 		goals.add(addGoal(new Tuple("waterTrees", true)));
-		
-		goals.add(addGoal(new Tuple("locateFreeSpace", true)));
-		
+				
 		goals.add(addGoal(new Tuple("DonateForVictoryPoints", true)));
 		
 		goals.add(addGoal(new Tuple("requestLumberForFreeSpace", true)));
 		
-		//goals.add(addGoal(new Tuple("moveRandom", true)));
+		goals.add(addGoal(new Tuple("moveRandom", true)));
 		
 		return goals;
 	}

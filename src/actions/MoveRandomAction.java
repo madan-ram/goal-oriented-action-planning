@@ -15,6 +15,8 @@ public class MoveRandomAction extends GoapAction {
 
 		MoveRandomAction.rc = rc;
 		//default action to be performed when there is no plan
+		//move randomly if hasLocatedFreeSpace is false
+		addPreCondition("hasLocatedFreeSpace", false);
 		
 		//Effect performed goal
 		addEffect("moveRandom", true);

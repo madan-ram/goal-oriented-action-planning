@@ -39,9 +39,9 @@ ArrayList<GoapAction> availableActions;
 			if(currentActions.poll() == null) {
 				System.out.println("Error: currentActions is null");
 			}
-		} else {
+		} /*else {
 			Utils.printERROR(rc, "Action not done");
-		}
+		}*/
 
 		//TODO fix this problem
 		//if (hasActionPlan()) {

@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Stack;
+
+import actions.LocateFreeSpaceAction;
+import actions.PlantTreeAction;
 import battlecode.common.*;
 
 final class Node {
@@ -32,13 +35,14 @@ public class GoapPlanner {
 			a.doReset();
 		}
 		
+			
 		// check what actions can run using their checkProceduralPrecondition
 		ArrayList<GoapAction> usableActions = new ArrayList<GoapAction> ();
 		for(GoapAction a : actionList) {
 			if ( a.checkProceduralPreCondtion(rc) )
 				usableActions.add(a);
 		}
-		//System.out.printf(" Usable action are %s\n", usableActions);
+		
 		
 		// we now have all actions that can run, stored in usableActions
 		// build up the tree and record the leaf nodes that provide a solution to the goals.
@@ -47,9 +51,6 @@ public class GoapPlanner {
 		// build graph
 		Node start = new Node (null, 0, worldState, null);
 		boolean success = buildGraph(start, leaves, usableActions, goals, 1000000.0f);
-		for(Node leaf:leaves) {
-			System.out.printf("Avilable plans %s @@@@@@@@@@@@@@@@@@@@@@@@@\n", leaf.action);
-		}
 		
 		if (!success) {
 			// oh no, we didn't get a plan
@@ -124,7 +125,7 @@ public class GoapPlanner {
 	private boolean buildGraph(Node parent, ArrayList<Node> leaves, ArrayList<GoapAction> usableActions, ArrayList<HashMap<String, Object>> goals,float leastcost)
 	{
 		boolean foundOne = false;
-
+		
 		// go through each action available at this node and see if we can use it here
 		for(GoapAction action: usableActions) {
 			
@@ -133,13 +134,10 @@ public class GoapPlanner {
 
 				// apply the action's effects to the parent state
 				HashMap<String, Object> currentState = populateState(parent.state, action.getEffects());
-				//System.out.println("StateChange =========================================");
-				//System.out.printf("%s\n", GoapAgent.prettyPrint(currentState));
 				
 				Node node = new Node(parent, parent.runningCost+action.getCost(), currentState, action);
 				
 				for(HashMap<String, Object> goal:goals) {
-					//System.out.printf("Goal->%s %s\n", goal, currentState);
 					if(inState(goal, currentState)) {
 						leaves.add(node);
 						foundOne = true;

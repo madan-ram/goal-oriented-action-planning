@@ -3,6 +3,7 @@ package actions;
 import battlecode.common.*;
 import goap.GoapAction;
 import god.DataProvider;
+import common.ChannelConstIndex;
 import common.Utils;
 
 public class HireFarmGardenerAction extends GoapAction {
@@ -25,12 +26,13 @@ public class HireFarmGardenerAction extends GoapAction {
 	
 	@Override
 	public boolean perform(RobotController rc) {
-		System.out.printf("HIRING GARDNER %f in direction\n", targetDir.getAngleDegrees());
 		if(targetDir != null && rc.canHireGardener(targetDir)) {
 			try {
+				//TODO remove data provider and update it in some format
 				//communicate your hired info to data provider
 				DataProvider.hiredGardener();
 				rc.hireGardener(targetDir);
+				rc.broadcast(ChannelConstIndex.GARDENER_COUNT, rc.readBroadcast(ChannelConstIndex.GARDENER_COUNT) + 1);
 			} catch (GameActionException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -46,7 +48,6 @@ public class HireFarmGardenerAction extends GoapAction {
 	
 	@Override
 	public boolean isDone() {
-		System.out.printf("Hired GARDNER and set isDone %s\n", hiredGardener);
 		return hiredGardener;
 	}
 	
@@ -64,14 +65,11 @@ public class HireFarmGardenerAction extends GoapAction {
 			if no hire the gardener and let data provider broadcast this info to rest of archon
 		 */
 		/*if(!DataProvider.hasHireGardenerTurn()) {
-			System.out.println("Does not have turns #################");
 			return false;
 		}*/
 		
-		//System.out.printf("Number of cool down turn %d turn number %d\n", rc.getBuildCooldownTurns(), rc.getRoundNum());
 		for(Direction dir:getSixDirection()) {
 			if(rc.canHireGardener(dir) && rc.hasRobotBuildRequirements(RobotType.GARDENER)) {
-				System.out.printf("Found direction to hire gardener %s\n", dir.getAngleDegrees());
 				targetDir = dir;
 				return true;
 			} else {
@@ -82,16 +80,16 @@ public class HireFarmGardenerAction extends GoapAction {
 				if(!rc.hasRobotBuildRequirements(RobotType.GARDENER))
 				{
 					if(rc.getTeamBullets() < RobotType.GARDENER.bulletCost) {
-						Utils.printWarning(rc, "Amount of bullet %f and need %d to hire gardener", rc.getTeamBullets(), RobotType.GARDENER.bulletCost);
+						//Utils.printWarning(rc, "Amount of bullet %f and need %d to hire gardener", rc.getTeamBullets(), RobotType.GARDENER.bulletCost);
 					} else {
-						Utils.printWarning(rc, "Invalid builder %s to build gardener", rc.getType().toString());
+						//Utils.printWarning(rc, "Invalid builder %s to build gardener", rc.getType().toString());
 					}
 				} else if(rc.isCircleOccupied(spawnLoc, RobotType.GARDENER.bodyRadius)) {
-					Utils.printWarning(rc, "Location %s with radius %f is not empty on map", spawnLoc.toString(), RobotType.GARDENER.bodyRadius);
+					//Utils.printWarning(rc, "Location %s with radius %f is not empty on map", spawnLoc.toString(), RobotType.GARDENER.bodyRadius);
 				} else if(rc.onTheMap(spawnLoc, RobotType.GARDENER.bodyRadius)) {
-					Utils.printWarning(rc, "Location %s with radius %f is not on the map", spawnLoc.toString(), RobotType.GARDENER.bodyRadius);	
+					//Utils.printWarning(rc, "Location %s with radius %f is not on the map", spawnLoc.toString(), RobotType.GARDENER.bodyRadius);	
 				} else if(!rc.isBuildReady()) {
-					Utils.printWarning(rc, "Is not build ready with cooldown turn of %d", rc.getBuildCooldownTurns());
+					//Utils.printWarning(rc, "Is not build ready with cooldown turn of %d", rc.getBuildCooldownTurns());
 				} else {
 					Utils.printERROR(rc, "canHireGardener has unknown reson to fail");
 				}

@@ -41,7 +41,6 @@ public class FSM {
 			if(stateStack.peek() != null) {
 				stateStack.peek().play();
 			} else {
-				System.out.println("state stack is null");
 				throw new FSMNoStateException("FSM recived null exception which break system");
 			}
 			
