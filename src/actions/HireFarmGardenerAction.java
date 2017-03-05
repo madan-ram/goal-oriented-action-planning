@@ -10,11 +10,9 @@ public class HireFarmGardenerAction extends GoapAction {
 		
 	static boolean hiredGardener = false;
 	Direction targetDir = null;
-	public static RobotController rc;
 	
 	public HireFarmGardenerAction(RobotController rc,DataProvider dataProvider) {
 		super(rc, dataProvider);
-		HireFarmGardenerAction.rc = rc;
 		
 		addPreCondition("hasArchon", true);
 		addPreCondition("hasFarmGardener", false);

@@ -4,13 +4,14 @@ import battlecode.common.*;
 import goap.GoapAction;
 import god.DataProvider;
 
-public class PlantTreeAction extends GoapAction {
+public class WaterTreesAction extends GoapAction {
 	
+	//TODO implement action to water trees
 	boolean plantedTree = false;
 	
-	public PlantTreeAction(RobotController rc, DataProvider dataProvider) {
+	public WaterTreesAction(RobotController rc, DataProvider dataProvider) {
 		super(rc, dataProvider);
-		
+						
 		addPreCondition("hasLocatedFreeSpace", true);
 		addPreCondition("hasPlantTrees", false);
 		addPreCondition("hasBullets", true);

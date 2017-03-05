@@ -8,12 +8,10 @@ import common.Utils;
 public class MoveRandomAction extends GoapAction {
 	
 	boolean moved = false;
-	static RobotController rc;
 	
 	public MoveRandomAction(RobotController rc, DataProvider dataProvider) {
 		super(rc, dataProvider);
 
-		MoveRandomAction.rc = rc;
 		//default action to be performed when there is no plan
 		//move randomly if hasLocatedFreeSpace is false
 		addPreCondition("hasLocatedFreeSpace", false);
@@ -23,7 +21,6 @@ public class MoveRandomAction extends GoapAction {
 	}
 	
 	static boolean tryMove(Direction dir, float degreeOffset, int checksPerSide) throws GameActionException {
-		
 		
         // First, try intended direction
         if (!rc.hasMoved() && rc.canMove(rc.getLocation().add(dir, rc.getType().strideRadius))) {

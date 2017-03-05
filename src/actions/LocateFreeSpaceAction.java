@@ -8,11 +8,9 @@ import god.DataProvider;
 public class LocateFreeSpaceAction extends GoapAction {
 	
 	boolean located = false;
-	RobotController rc;
 	
 	public LocateFreeSpaceAction(RobotController rc, DataProvider dataProvider) {
 		super(rc, dataProvider);
-		this.rc = rc;
 
 		addPreCondition("hasLocatedFreeSpace", false);
 		
