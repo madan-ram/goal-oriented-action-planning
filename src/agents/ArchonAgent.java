@@ -15,7 +15,7 @@ public class ArchonAgent extends GoapAgent {
 		//addGoal takes in list of K,V and return goal, this list represent "and goal"
 		//list of "and goal" forms goals
 		
-		goals.add(addGoal(new Tuple("hireFarmGardener", true)));
+		goals.add(addGoal(new Tuple("hasFarmGardener", true)));
 		
 		goals.add(addGoal(new Tuple("hireBotGardener", true)));
 		

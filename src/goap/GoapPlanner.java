@@ -7,7 +7,8 @@ import java.util.Queue;
 import java.util.Stack;
 
 import actions.LocateFreeSpaceAction;
-import actions.PlantTreeAction;
+import actions.PlantTreesAction;
+import actions.WaterTreesAction;
 import battlecode.common.*;
 
 final class Node {
@@ -38,9 +39,9 @@ public class GoapPlanner {
 			
 		// check what actions can run using their checkProceduralPrecondition
 		ArrayList<GoapAction> usableActions = new ArrayList<GoapAction> ();
-		for(GoapAction a : actionList) {
-			if ( a.checkProceduralPreCondtion(rc) )
-				usableActions.add(a);
+		for(GoapAction action : actionList) {
+			if ( action.checkProceduralPreCondtion(rc) )
+				usableActions.add(action);
 		}
 		
 		
@@ -128,7 +129,6 @@ public class GoapPlanner {
 		
 		// go through each action available at this node and see if we can use it here
 		for(GoapAction action: usableActions) {
-			
 			// if the parent state has the conditions for this action's preconditions, we can use it here
 			if ( inState(action.getPreConditions(), parent.state) ) {
 

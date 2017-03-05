@@ -15,9 +15,9 @@ public class FarmGardenerAgent extends GoapAgent {
 		//addGoal takes in list of K,V and return goal, this list represent "and goal"
 		//list of "and goal" forms goals
 		
-		goals.add(addGoal(new Tuple("plantTrees", true)));
+		goals.add(addGoal(new Tuple("hasPlantTrees", true)));
 		
-		goals.add(addGoal(new Tuple("waterTrees", true)));
+		goals.add(addGoal(new Tuple("hasWateredTrees", true)));
 				
 		goals.add(addGoal(new Tuple("DonateForVictoryPoints", true)));
 		
@@ -31,8 +31,9 @@ public class FarmGardenerAgent extends GoapAgent {
 	public void createActionList(RobotController rc,DataProvider dataProvider) {
 		addAction(
 				new actions.LocateFreeSpaceAction(rc, dataProvider),
-				new actions.PlantTreeAction(rc,dataProvider),
-				new actions.MoveRandomAction(rc, dataProvider)
+				new actions.PlantTreesAction(rc,dataProvider),
+				new actions.MoveRandomAction(rc, dataProvider),
+				new actions.WaterTreesAction(rc, dataProvider)
 		);
 	}
 }

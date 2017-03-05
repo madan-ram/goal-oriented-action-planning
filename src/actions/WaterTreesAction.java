@@ -1,29 +1,29 @@
 package actions;
 
 import battlecode.common.*;
+import common.Utils;
 import goap.GoapAction;
 import god.DataProvider;
 
 public class WaterTreesAction extends GoapAction {
 	
 	//TODO implement action to water trees
-	boolean plantedTree = false;
+	boolean wateredTree = false;
+	TreeInfo[] thirstyTrees = new TreeInfo[8];
+	int numThirstyTrees = 0;
 	
 	public WaterTreesAction(RobotController rc, DataProvider dataProvider) {
 		super(rc, dataProvider);
 						
-		addPreCondition("hasLocatedFreeSpace", true);
 		addPreCondition("hasPlantTrees", false);
-		addPreCondition("hasBullets", true);
 		
-		addEffect("hasPlantTrees", true);
-		//Effect performed goal
-		addEffect("plantTrees", true);	
+		addEffect("hasWateredTrees", true);
 	}
 	
 	@Override
 	public void doReset() {
-		plantedTree = false;
+		numThirstyTrees = 0;
+		wateredTree = false;
 		
 	}
 
@@ -36,32 +36,45 @@ public class WaterTreesAction extends GoapAction {
 	@Override
 	public boolean isDone() {
 		// TODO Auto-generated method stub
-		return plantedTree;
+		return wateredTree;
 	}
 	
 	@Override
 	public boolean perform(RobotController rc) throws GameActionException {
-		Direction[] dir6 = GoapAction.getSixDirection();
-		float spawnDist = rc.getType().bodyRadius + GameConstants.GENERAL_SPAWN_OFFSET + GameConstants.BULLET_TREE_RADIUS;
-		
-		//Assume we will be successful
-		plantedTree = true;
-		for(int i=0; i<dir6.length; i++) {
-			MapLocation spawnLoc = rc.getLocation().add(dir6[i], spawnDist);
-			if(rc.canPlantTree(dir6[i])) {
-				rc.plantTree(dir6[i]);
-			} else if(!isCircleOccupiedByTree(spawnLoc, GameConstants.BULLET_TREE_RADIUS, rc.getTeam())) {
-				//failed once is considered plan failed, but should not be failed because of our own tree
-				plantedTree = false;
-			}
-		}
 		
 		//Failed action should not create complete new plan
+		for(TreeInfo tree: thirstyTrees) {
+			//test which all tree near to the gardener require water
+			//can water those tree if less health
+			if(rc.canWater(tree.ID)) {
+				rc.water(tree.ID);
+			} else {
+				Utils.printERROR(rc, "Failed to water tree with id:%d", tree.ID);
+				return false;
+			}
+		}
+		wateredTree = true;
 		return true;
 	}
 
 	@Override
 	public boolean checkProceduralPreCondtion(RobotController rc) {
-		return true;
+		//ASSUME: that tree are near and with in "water radius" as specified in spec and no movement needed
+		
+		//get tree near vision radius and it's health of tree 
+		TreeInfo[] nearbyTrees = rc.senseNearbyTrees(GameConstants.INTERACTION_DIST_FROM_EDGE+GameConstants.BULLET_TREE_RADIUS, rc.getTeam());
+		for(TreeInfo tree: nearbyTrees) {
+			//test which all tree near to the gardener require water
+			//can water those tree if less health
+			double health_percent = (100.-(tree.health/GameConstants.BULLET_TREE_MAX_HEALTH) * 100.);
+			if(dataProvider.getThirstyThreshold() <= health_percent && rc.canWater(tree.ID)) {
+				thirstyTrees[numThirstyTrees] = tree;
+				numThirstyTrees++;
+			}
+		}
+		if(numThirstyTrees>0) {
+			return true;
+		}
+		return false;
 	}
 }

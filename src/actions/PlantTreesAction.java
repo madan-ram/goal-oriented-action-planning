@@ -4,11 +4,11 @@ import battlecode.common.*;
 import goap.GoapAction;
 import god.DataProvider;
 
-public class PlantTreeAction extends GoapAction {
+public class PlantTreesAction extends GoapAction {
 	
 	boolean plantedTree = false;
 	
-	public PlantTreeAction(RobotController rc, DataProvider dataProvider) {
+	public PlantTreesAction(RobotController rc, DataProvider dataProvider) {
 		super(rc, dataProvider);
 		
 		addPreCondition("hasLocatedFreeSpace", true);
@@ -16,8 +16,6 @@ public class PlantTreeAction extends GoapAction {
 		addPreCondition("hasBullets", true);
 		
 		addEffect("hasPlantTrees", true);
-		//Effect performed goal
-		addEffect("plantTrees", true);	
 	}
 	
 	@Override

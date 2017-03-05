@@ -18,8 +18,6 @@ public class HireFarmGardenerAction extends GoapAction {
 		addPreCondition("hasFarmGardener", false);
 		
 		addEffect("hasFarmGardener", true);
-		//Effect performed goal
-		addEffect("hireFarmGardener", true);
 	}
 	
 	@Override

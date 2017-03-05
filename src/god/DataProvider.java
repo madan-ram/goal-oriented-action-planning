@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Queue;
 
 import battlecode.common.GameActionException;
+import battlecode.common.GameConstants;
 import battlecode.common.MapLocation;
 import battlecode.common.RobotController;
 import common.ChannelConstIndex;
@@ -21,6 +22,13 @@ public class DataProvider {
 	//some constant value
 	static int MaxNumFarmGardener = 5;
 	static int MaxNumPlantTrees = 20;
+	static int MaxTreeGardenerCanPlant = 6;
+	static int TreePlantedByThisGardener = 0;
+	static double ThirstyThreshold = GameConstants.BULLET_TREE_MAX_HEALTH*0.20;
+	
+	public static double getThirstyThreshold() {
+		return ThirstyThreshold;
+	}
 	
 	//store the world state
 	static HashMap<String, Object> worldState = new HashMap<String, Object>();;
@@ -41,7 +49,7 @@ public class DataProvider {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		worldState.put("hasPlantTrees", rc.getTreeCount() >=  MaxNumPlantTrees);
+		worldState.put("hasPlantTrees", TreePlantedByThisGardener >=  MaxTreeGardenerCanPlant);
 		worldState.put("hasLocatedFreeSpace", false);
 		return worldState;
 	}

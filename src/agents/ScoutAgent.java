@@ -17,7 +17,7 @@ public class ScoutAgent extends GoapAgent {
 		addAction(
 				new actions.HireFarmGardenerAction(rc, dataProvider),
 				new actions.LocateFreeSpaceAction(rc, dataProvider),
-				new actions.PlantTreeAction(rc,dataProvider),
+				new actions.PlantTreesAction(rc,dataProvider),
 				new actions.MoveRandomAction(rc, dataProvider)
 		);
 	}
