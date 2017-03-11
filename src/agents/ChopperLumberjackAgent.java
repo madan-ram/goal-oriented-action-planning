@@ -23,14 +23,14 @@ public class ChopperLumberjackAgent extends GoapAgent {
 		
 		goals.add(addGoal(new Tuple("chopEnemyTree", true)));
 		
+		goals.add(addGoal(new Tuple("moveRandom", true)));
+		
 		return goals;
 	}
 	
 	public void createActionList(RobotController rc,DataProvider dataProvider) {
 		addAction(
-				new actions.HireFarmGardenerAction(rc, dataProvider),
-				new actions.LocateFreeSpaceAction(rc, dataProvider),
-				new actions.PlantTreesAction(rc,dataProvider),
+				new actions.ChopForSpaceAction(rc, dataProvider),
 				new actions.MoveRandomAction(rc, dataProvider)
 		);
 	}

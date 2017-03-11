@@ -29,14 +29,14 @@ public strictfp class RobotPlayer {
         	soldier.start(rc);
             break;
         case LUMBERJACK:
-        	GoapAgent defenderLumberjack = new DefenderLumberjackAgent();
-        	defenderLumberjack.start(rc);
-        	//GoapAgent chopperLumberjack = new ChopperLumberjackAgent(rc);
+        	//GoapAgent defenderLumberjack = new DefenderLumberjackAgent();
+        	//defenderLumberjack.start(rc);
+        	GoapAgent chopperLumberjack = new ChopperLumberjackAgent();
+        	chopperLumberjack.start(rc);
             break;
         case SCOUT:
         	GoapAgent scout = new ScoutAgent();
         	scout.start(rc);
-        	
         	break;
         case TANK:
         	GoapAgent tank = new TankAgent();

@@ -9,7 +9,7 @@ public class WaterTreesAction extends GoapAction {
 	
 	//TODO implement action to water trees
 	boolean wateredTree = false;
-	TreeInfo[] thirstyTrees = new TreeInfo[8];
+	TreeInfo[] thirstyTrees = new TreeInfo[6];
 	int numThirstyTrees = 0;
 	
 	public WaterTreesAction(RobotController rc, DataProvider dataProvider) {
@@ -43,7 +43,8 @@ public class WaterTreesAction extends GoapAction {
 	public boolean perform(RobotController rc) throws GameActionException {
 		
 		//Failed action should not create complete new plan
-		for(TreeInfo tree: thirstyTrees) {
+		for(int i=0; i<numThirstyTrees; i++) {
+			TreeInfo tree = thirstyTrees[i];
 			//test which all tree near to the gardener require water
 			//can water those tree if less health
 			if(rc.canWater(tree.ID)) {
